@@ -27,6 +27,7 @@ private:
 	//some data structure to hold your treeNodes together ...
 	//DATASTUCTURE treeNodes tree;
 	//any helper private variables you need
+	treeNode tree;
 
 public:
 	bTREE();
