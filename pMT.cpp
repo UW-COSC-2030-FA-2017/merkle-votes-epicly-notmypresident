@@ -1,3 +1,6 @@
+#include <string>
+#include <iostream>
+
 
 pMT::pMT(int hashSelect)
 /**
@@ -6,6 +9,7 @@ pMT::pMT(int hashSelect)
  * @return 
  */
 {
+
 }
 
 pMT::~pMT()
@@ -55,7 +59,7 @@ string pMT::locateData(string vote)
  * @param vote, the data to search for 
  * @return sequence of L's and R's comprising the movement to the leaf node; else return a dot '.'
  */
-{
+{ 
 }
 
 string pMT::locateHash(string mhash)
