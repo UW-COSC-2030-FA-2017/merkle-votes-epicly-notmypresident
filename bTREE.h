@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <queue>
+#include "treeNode.cpp"
 using namespace std;
 
 //Nodes must
@@ -10,24 +12,12 @@ using namespace std;
 
 class bTREE
 {
-	struct treeNode
-	{
-		//The data stored in the node.
-		string word = "";
-		// psuedo int stored in node
-		int timeStamp = 0;
-
-		treeNode *left;
-		treeNode *right;
-
-		bool leaf = true; //Identifies as a leaf or not
-	};
 
 private:
 	//some data structure to hold your treeNodes together ...
 	//DATASTUCTURE treeNodes tree;
 	//any helper private variables you need
-	treeNode tree;
+	treeNode* tree;
 
 public:
 	bTREE();
@@ -41,7 +31,6 @@ public:
 
 	//inserts a new node (children nodes) and hashes info in parent nodes.
 	int insert(string data);
-	int insert(string, treeNode* node);
 
 	//returns an empty TreeNode/leaf.
 	int findLeaf(treeNode* node);
@@ -54,15 +43,16 @@ public:
 	string locate(string);
 	string recursiveLocate(string hashedWord, treeNode* node, string path);
 
-	treeNode* root; //Root Node of the tree.
-	int ops; //Stores amount of operations and translates to psuedo time stamp of each node.
+	queue <treeNode*> *treeQ;
+	treeNode* root; //Node of the tree.
+	int ops = 0; //Stores amount of operations and translates to psuedo time stamp of each node.
 
-	//Hashes the data for the parent nodes
-	string hash(string);
+	void displayRight(std::ostream & outfile, treeNode* subtree, std::string prefix);
+	void displayLeft(std::ostream & outfile, treeNode* subtree, std::string prefix);
+	void display(std::ostream& outfile);
 
 	friend bool operator==(const bTREE& lhs, const bTREE& rhs);
 	friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
 
-	friend std::ostream& operator<<(std::ostream& out, const bTREE& p);
 
 };

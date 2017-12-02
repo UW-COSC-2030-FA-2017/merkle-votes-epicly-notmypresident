@@ -17,21 +17,20 @@ public:
     pMT(int);
     ~pMT();
     
+    int insert(string);
+	int insert(string vote, treeNode* node);
     
-    int insert(string, int);
+    int find(string vote, int hashSelect);
+    int findHash(string vote);
     
-    int find(string, int, int);
-    int findHash(string);
+    string locateData(string vote);
+	string locateHash(string vote);
+
+	friend bool operator ==(const pMT & lhs, const pMT & rhs);
     
-    string locateData(string);
-	string locateHash(string);
-    
-	//bool operator==(const pMT & lhs, const pMT & rhs);
-    
-    //bool operator!=(const pMT & lhs, const pMT & rhs);
+    friend bool operator !=(const pMT & lhs, const pMT & rhs);
     
     friend pMT operator^(const pMT& lhs, const pMT& rhs);
-    friend std::ostream& operator<<(std::ostream& out, const pMT& p);
     
 };
 
