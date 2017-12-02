@@ -12,3 +12,5 @@ struct treeNode
 
 	bool leaf = true; //Identifies as a leaf or not
 };
+
+//Seperate file because it's easier.

@@ -43,14 +43,19 @@ public:
 	string locate(string);
 	string recursiveLocate(string hashedWord, treeNode* node, string path);
 
-	queue <treeNode*> *treeQ;
-	treeNode* root; //Node of the tree.
-	int ops = 0; //Stores amount of operations and translates to psuedo time stamp of each node.
+	void accessQ(); //Access treeQ function?
 
+	queue <treeNode*> *treeQ; //Q for insert function.
+
+	treeNode* root; //Node of the tree.
+	int ops = 0; //Stores amount of operations and translates to psuedo time stamp of each node. EACH OP is counted for if-else's and functions. Use for hash functions section of hw.
+
+	//Print functions, dont fuck with these cause it took me forever to get it to work lmao
 	void displayRight(std::ostream & outfile, treeNode* subtree, std::string prefix);
 	void displayLeft(std::ostream & outfile, treeNode* subtree, std::string prefix);
 	void display(std::ostream& outfile);
 
+	//Dont need to worry about these.
 	friend bool operator==(const bTREE& lhs, const bTREE& rhs);
 	friend bool operator!=(const bTREE& lhs, const bTREE& rhs);
 

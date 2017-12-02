@@ -9,10 +9,9 @@ using namespace std;
 
 int main()
 {
-	cout << "L" << endl;
-	bTREE tree = bTREE();
-	int input = -1;
-	string wordData;
+	bTREE tree = bTREE(); //create bTree.
+	int input = -1; //control var for user input.
+	string wordData; //tmp var for userInput.
 
 	while (input != 0)
 	{
@@ -33,32 +32,39 @@ int main()
 			{
 			case 1:
 				tree.ops++;
+				//this works
 				cout << tree.numberOfNodes(tree.root) << endl;
 				break;
 			case 2:
 				tree.ops++;
+				//this no worky
 				cout << "Please enter a string to insert into the new node:" << endl;
 				cin >> wordData;
 				tree.insert(wordData);
+				//dont delete this function below from case 2 
 				tree.display(cout);
 				break;
 			case 3:
 				tree.ops++;
+				//not tested yet.
 				cout << "Enter a string to search for:" << endl;
 				cin >> wordData;
 				tree.callerfind(wordData);
 				break;
 			case 4:
 				tree.ops++;
+				//not tested yet.
 				cout << "Enter a hash to search the tree for:" << endl;
 				cin >> wordData;
 				tree.locate(wordData);
 				break;
 			case 5:
 				tree.ops++;
+				//this works.
 				cout << "Amount of operations so far: " << tree.ops << endl;
 			default:
 				tree.ops++;
+				//this works.
 				cout << "Not a Valid Option." << endl;
 			}
 		}

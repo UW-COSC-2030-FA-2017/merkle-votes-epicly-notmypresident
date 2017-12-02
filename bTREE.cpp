@@ -53,7 +53,7 @@ void bTREE::isLeaf(treeNode * node)
 
 int bTREE::insert(string data)
 {
-	//Move data in the parent to the children and replace with a hash of the new data, and the parent's old data into the parent.
+	//Using a tmp variable...
 	ops++;
 	treeNode* tmp;
 	tmp->word = data;
@@ -61,18 +61,22 @@ int bTREE::insert(string data)
 	tmp->left = NULL;
 	tmp->right = NULL;
 
+	//If our tree hasn't had any nodes put in it yet, just assign the tmp values to it, and push it into the q.
 	if (root == NULL)
 	{
 		root = tmp;
 		treeQ.push(tmp);
 	}
+	//Check to see if the node in front has an open spot to it's left. If it doesn't, assign the tmp node to the spot and push in temp
 	else if (treeQ.front()->left == NULL)
 	{
+		treeQ.front()->left = tmp;
 		treeQ.push(tmp);
 	}
+	//if the spot to the right of the node in the front of the q is free, fill it and then pop the front node off the q (because it now has 2 childen nodes and cant connect anymore to it)
 	else if (treeQ.front()->right == NULL)
 	{
-		treeQ.front()->right == tmp;
+		treeQ.front()->right = tmp;
 		treeQ.push(tmp);
 		treeQ.pop();
 	}
@@ -110,29 +114,28 @@ int bTREE::findLeaf(treeNode* node)
 bool bTREE::callerfind(string data)
 {
 	ops++;
+	//if the root has the data, return true
 	if (root->word == data)
 	{
 		ops++;
 		return true;
 	}
+	//if not, check left for the data. If not left, check right.
 	else if (recursivefind(data, root->left) == false)
 	{
 		ops++;
 		return recursivefind(data, root->right);
-	}
-	else
-	{
-		ops++;
-		return true;
 	}
 }
 
 bool bTREE::recursivefind(string data, treeNode* node)
 {
 	ops++;
+	//if it's a leaf node, then it has potential to having our data. If not, look left and then right for a leaf.
 	if (node->leaf == true)
 	{
 		ops++;
+		//If we found a leaf, check to see if it has our data, if not, start all over.
 		if (node->word == data)
 		{
 			ops++;
@@ -184,11 +187,13 @@ string bTREE::recursiveLocate(string hashedWord, treeNode* node, string path)
 	else
 	{
 		ops++;
+		//adds the left and right directions to our path string recursively till we find our hash we were looking for
 		recursiveLocate(hashedWord, node->left, path + 'L');
 		recursiveLocate(hashedWord, node->right, path + 'R');
 	}
 }
 
+//prints. Dont need to mess with anything down here.
 void bTREE::display(std::ostream& outfile)
 {
 	ops++;
@@ -222,6 +227,11 @@ void  bTREE::displayLeft(std::ostream & outfile, treeNode* subtree, std::string 
 		outfile << prefix + "/---" << subtree->word << std::endl;
 		displayRight(outfile, subtree->right, prefix + "|    ");
 	}
+}
+
+void accessQ()
+{
+	return treeQ;
 }
 
 // Display the nodes connected to subtree.

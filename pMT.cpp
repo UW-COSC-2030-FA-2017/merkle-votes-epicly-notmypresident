@@ -15,6 +15,7 @@
 */
 pMT::pMT(int hashSelect)
 {
+	//All this needs to do is store the selected hash in a global variable
 	selectedHash = hashSelect;
 }
 
@@ -47,11 +48,11 @@ int pMT::insert(string vote)
 	if (myMerkle.root == NULL)
 	{
 		myMerkle.root = tmp;
-		treeQ.push(tmp);
+		myMerkle.push(tmp);
 	}
 	else if (treeQ.front()->left == NULL)
 	{
-		treeQ.enqueue(tmp);
+		treeQ.push(tmp);
 	}
 	else if (treeQ.front()->right == NULL)
 	{
@@ -93,7 +94,7 @@ int pMT::find(string vote, int hashSelect)
 {
 	if (myMerkle.locate(mhash) == ".")
 	{
-		return 0;
+		return myMerkle.ops + 1;;
 	}
 	return myMerkle.ops + 1;
 }
@@ -185,7 +186,7 @@ string pMT::hash_3(string key)
 	string newKey;
 	vector<char> vect[1];
 
-	//Reverses the spelling of the word, reassigns certain characters to new ones and pushes it into a vector, then returns the values int he vector back to a string in index order.
+	//Reverses the spelling of the word, reassigns certain characters to new ones and pushes it into a vector, then returns the values in the vector back to a string in index order.
 	for (int i = key.length(); i >= 0; i--)
 	{
 		char tmp = key.at(i);
@@ -232,6 +233,14 @@ string pMT::hash_3(string key)
 	return newKey;
 }
 
+//an attempt to make the errors go away. It doesnt work lmao
+void accessQ()
+{
+	return treeQ;
+}
+
+
+//Dont need to mess with these.
 bool operator==(const pMT& lhs, const pMT& rhs)
 /**
  * @brief Comparison between two merkle trees
