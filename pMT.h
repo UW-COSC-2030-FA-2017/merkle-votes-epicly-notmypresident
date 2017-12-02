@@ -6,32 +6,36 @@ using namespace std;
 class pMT
 {
 private:
-    int selectedHash;
-    bTREE myMerkle;
-    
-    string hash_1(string);
-    string hash_2(string);
-    string hash_3(string);
-    
-public:
-    pMT(int);
-    ~pMT();
-    
-    
-    int insert(string, int);
-    
-    int find(string, int, int);
-    int findHash(string);
-    
-    string locateData(string);
-	string locateHash(string);
-    
-	//bool operator==(const pMT & lhs, const pMT & rhs);
-    
-    //bool operator!=(const pMT & lhs, const pMT & rhs);
-    
-    friend pMT operator^(const pMT& lhs, const pMT& rhs);
-    friend std::ostream& operator<<(std::ostream& out, const pMT& p);
-    
-};
+	int selectedHash; //Global Var for hash selected by user.
+	bTREE myMerkle;
 
+	string hash_1(string);
+	string hash_2(string);
+	string hash_3(string);
+
+public:
+	pMT(int); //Only keeps track of selected hash
+	~pMT();
+
+	int insert(string); //SEPERATE from bTREE file. Needs it's own implementation.
+
+
+						//Most of these below will only borrow from bTree, shouldn't need to add much if anything to these.
+	int find(string vote, int hashSelect);
+	int findHash(string vote);
+
+	string locateData(string vote);
+	string locateHash(string vote);
+
+	treeNode* findLeaf(treeNode*);
+	bool isLeaf(treeNode*);
+	void adjustHash();
+
+	//Shouldn't need to worry about these.
+	friend bool operator ==(const pMT & lhs, const pMT & rhs);
+
+	friend bool operator !=(const pMT & lhs, const pMT & rhs);
+
+	friend pMT operator^(const pMT& lhs, const pMT& rhs);
+
+};
