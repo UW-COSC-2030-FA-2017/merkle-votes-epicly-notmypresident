@@ -49,19 +49,20 @@ int main()
 				//not tested yet.
 				cout << "Enter a string to search for:" << endl;
 				cin >> wordData;
-				tree.callerfind(wordData);
+				cout << tree.callerfind(wordData) << endl;
 				break;
 			case 4:
 				tree.ops++;
 				//not tested yet.
 				cout << "Enter a hash to search the tree for:" << endl;
 				cin >> wordData;
-				tree.locate(wordData);
+				cout << tree.locate(wordData) << endl;
 				break;
 			case 5:
 				tree.ops++;
 				//this works.
 				cout << "Amount of operations so far: " << tree.ops << endl;
+				break;
 			default:
 				tree.ops++;
 				//this works.

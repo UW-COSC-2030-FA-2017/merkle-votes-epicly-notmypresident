@@ -43,9 +43,7 @@ public:
 	string locate(string);
 	string recursiveLocate(string hashedWord, treeNode* node, string path);
 
-	void accessQ(); //Access treeQ function?
-
-	queue <treeNode*> *treeQ; //Q for insert function.
+	queue <treeNode*> treeQ; //Q for insert function.
 
 	treeNode* root; //Node of the tree.
 	int ops = 0; //Stores amount of operations and translates to psuedo time stamp of each node. EACH OP is counted for if-else's and functions. Use for hash functions section of hw.

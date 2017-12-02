@@ -42,12 +42,12 @@ void bTREE::isLeaf(treeNode * node)
 	if (node->left == NULL && node->right == NULL)
 	{
 		ops++;
-		node->leaf == true;
+		node->leaf = true;
 	}
 	else
 	{
 		ops++;
-		node->leaf == false;
+		node->leaf = false;
 	}
 }
 
@@ -55,17 +55,19 @@ int bTREE::insert(string data)
 {
 	//Using a tmp variable...
 	ops++;
-	treeNode* tmp;
+	treeNode* tmp = new treeNode();
 	tmp->word = data;
 	tmp->timeStamp = ops;
 	tmp->left = NULL;
 	tmp->right = NULL;
+	tmp->leaf = true;
 
 	//If our tree hasn't had any nodes put in it yet, just assign the tmp values to it, and push it into the q.
-	if (root == NULL)
+	if (root->leaf == true)
 	{
 		root = tmp;
-		treeQ.push(tmp);
+		root->leaf = false;
+		treeQ.push(root);
 	}
 	//Check to see if the node in front has an open spot to it's left. If it doesn't, assign the tmp node to the spot and push in temp
 	else if (treeQ.front()->left == NULL)
@@ -207,7 +209,7 @@ void bTREE::display(std::ostream& outfile)
 	{
 		ops++;
 		displayLeft(outfile, root->left, "    ");
-		outfile << "---" << root->word << std::endl;
+		outfile << "---" << root->word << "|" << root->timeStamp << std::endl;
 		displayRight(outfile, root->right, "    ");
 	}
 }
@@ -224,15 +226,15 @@ void  bTREE::displayLeft(std::ostream & outfile, treeNode* subtree, std::string 
 	{
 		ops++;
 		displayLeft(outfile, subtree->left, prefix + "     ");
-		outfile << prefix + "/---" << subtree->word << std::endl;
+		outfile << prefix + "/---" << subtree->word << "|" << subtree->timeStamp << std::endl;
 		displayRight(outfile, subtree->right, prefix + "|    ");
 	}
 }
 
-void accessQ()
-{
-	return treeQ;
-}
+//queue<treeNode*> bTREE::accessQ()
+//{
+	//return treeQ;
+//}
 
 // Display the nodes connected to subtree.
 // This is a right subtree.
