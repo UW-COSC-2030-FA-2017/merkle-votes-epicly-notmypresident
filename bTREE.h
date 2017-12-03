@@ -1,8 +1,12 @@
 #pragma once
 #include <string>
 #include <queue>
+#include <stack>
 #include "treeNode.cpp"
 using namespace std;
+
+#ifndef BTREE_H
+#define BTREE_H
 
 //Nodes must
 //hold a pseudo - time stamp(integer, non - unique)[5]
@@ -43,10 +47,8 @@ public:
 	string locate(string);
 	string recursiveLocate(string hashedWord, treeNode* node, string path);
 
-	void accessQ(); //Access treeQ function?
-
 	queue <treeNode*> treeQ; //Q for insert function.
-	
+	stack <treeNode*> treeS;
 	treeNode* root; //Node of the tree.
 	int ops = 0; //Stores amount of operations and translates to psuedo time stamp of each node. EACH OP is counted for if-else's and functions. Use for hash functions section of hw.
 
@@ -61,3 +63,5 @@ public:
 
 
 };
+
+#endif
