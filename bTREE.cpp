@@ -209,7 +209,7 @@ void bTREE::display(std::ostream& outfile)
 	{
 		ops++;
 		displayLeft(outfile, root->left, "    ");
-		outfile << "---" << root->word << std::endl;
+		outfile << "---" << root->word << "|" << root->timeStamp << std::endl;
 		displayRight(outfile, root->right, "    ");
 	}
 }
@@ -226,14 +226,14 @@ void  bTREE::displayLeft(std::ostream & outfile, treeNode* subtree, std::string 
 	{
 		ops++;
 		displayLeft(outfile, subtree->left, prefix + "     ");
-		outfile << prefix + "/---" << subtree->word << std::endl;
+		outfile << prefix + "/---" << subtree->word << "|" << subtree->timeStamp << std::endl;
 		displayRight(outfile, subtree->right, prefix + "|    ");
 	}
 }
 
 //queue<treeNode*> bTREE::accessQ()
 //{
-	//return treeQ;
+//return treeQ;
 //}
 
 // Display the nodes connected to subtree.

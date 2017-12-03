@@ -3,6 +3,9 @@
 #include "bTREE.h"
 #include <string>
 using namespace std;
+
+#ifndef PMT_H
+#define PMT_H
 class pMT
 {
 private:
@@ -20,8 +23,8 @@ public:
 	int insert(string); //SEPERATE from bTREE file. Needs it's own implementation.
 
 
-						//Most of these below will only borrow from bTree, shouldn't need to add much if anything to these.
-	int find(string vote, int hashSelect);
+	//Most of these below will only borrow from bTree, shouldn't need to add much if anything to these.
+	int find(string vote, int time, int hashSelect);
 	int findHash(string vote);
 
 	string locateData(string vote);
@@ -38,4 +41,12 @@ public:
 
 	friend pMT operator^(const pMT& lhs, const pMT& rhs);
 
+	void displayRight(std::ostream & outfile, treeNode* subtree, std::string prefix);
+	void displayLeft(std::ostream & outfile, treeNode* subtree, std::string prefix);
+	void display(std::ostream& outfile);
+
+	void increOps() {myMerkle.ops++;};
+
 };
+
+#endif

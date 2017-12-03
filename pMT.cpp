@@ -17,6 +17,7 @@ pMT::pMT(int hashSelect)
 {
 	//All this needs to do is store the selected hash in a global variable
 	selectedHash = hashSelect;
+	myMerkle.treeS.push(myMerkle.root);
 }
 
 pMT::~pMT()
@@ -47,14 +48,24 @@ int pMT::insert(string vote)
 	tmp->left = NULL;
 	tmp->right = NULL;
 
-	tmp2 = findLeaf(myMerkle.root);
-	tmp3 = tmp2;
-	tmp2->leaf = false;
-	tmp2->left = tmp;
-	tmp2->right = tmp3;
-	myMerkle.treeQ.push(tmp2);
-	myMerkle.treeQ.push(tmp);
-	adjustHash();
+	if (myMerkle.root->word == "")
+	{
+		myMerkle.root = tmp;
+	}
+	else
+	{ 
+		tmp2 = findLeaf(myMerkle.root);
+		tmp3 = tmp2;
+		tmp2->left = tmp;
+		tmp2->right = tmp3;
+		tmp2->leaf = false;
+		//myMerkle.insert(tmp3->word);
+		//myMerkle.insert(tmp->word);
+		myMerkle.treeS.push(tmp2);
+		myMerkle.treeS.push(tmp);
+		//adjustHash();
+	}
+	
 
 	return myMerkle.ops - functionOps;
 }
@@ -91,31 +102,33 @@ bool pMT::isLeaf(treeNode* node)
 void pMT::adjustHash()
 {
 	treeNode* tmp = new treeNode();
-	while (!myMerkle.treeQ.empty())
+	stack <treeNode*> temp = myMerkle.treeS;
+	while (!temp.empty())
 	{
-		tmp = myMerkle.treeQ.back();
+		tmp = temp.top();
 		if (tmp->leaf == true)
 		{
-			myMerkle.treeQ.pop();
+			temp.pop();
 		}
 		else 
 		{
 			if (selectedHash == 1)
 			{
-				tmp->word = hash_1(tmp->left->word + tmp->right->word);
+				temp.top()->word = hash_1(tmp->left->word + tmp->right->word);
 			}
 			else if (selectedHash == 2)
 			{
-				tmp->word = hash_2(tmp->left->word + tmp->right->word);
+				temp.top()->word = hash_2(tmp->left->word + tmp->right->word);
 			}
 			else
 			{
-				tmp->word = hash_3(tmp->left->word + tmp->right->word);
+				temp.top()->word = hash_3(tmp->left->word + tmp->right->word);
 			}
-			myMerkle.treeQ.pop();
+			temp.pop();
 		}
 	}
 }
+
 
 /**
 * @brief given a vote, timestamp, and hash function, does this vote exist in the tree?
@@ -124,12 +137,16 @@ void pMT::adjustHash()
 * @param hashSelect, an int corresponding to the hash functions _1, _2, and _3
 * @return 0 if not found, else number of opperations required to find the matching vote
 */
-int pMT::find(string vote, int hashSelect)
+int pMT::find(string vote, int time, int hashSelect)
 {
+	string hash;
 	if (hashSelect == selectedHash)
 	{
-		myMerkle.callerfind(vote);
-		return myMerkle.ops + 1;
+		
+		if (myMerkle.callerfind(vote))
+		{
+			return myMerkle.ops + 1;
+		}
 	}
 	else
 	{
@@ -144,11 +161,15 @@ int pMT::findHash(string mhash)
 * @return 0 if not found, else number of opperations required to find the matching hash
 */
 {
-	if (myMerkle.locate(mhash) == ".")
+	if (myMerkle.callerfind(mhash))
 	{
-		return myMerkle.ops + 1;;
+		return myMerkle.ops + 1;
 	}
-	return myMerkle.ops + 1;
+	else
+	{
+		return 0;
+	}
+
 }
 
 
@@ -164,7 +185,11 @@ string pMT::locateData(string vote)
 	{
 		return ".";
 	}
-	return myMerkle.locate(vote);
+	else
+	{
+		return myMerkle.locate(vote);
+	}
+	
 }
 
 string pMT::locateHash(string mhash)
@@ -358,3 +383,55 @@ bool operator !=(const pMT& lhs, const pMT& rhs)
 //{
 //	return;
 //}
+
+void pMT::displayRight(std::ostream & outfile, treeNode* subtree, std::string prefix) 
+{
+	myMerkle.ops++;
+	if (subtree == NULL)
+	{
+		myMerkle.ops++;
+		outfile << prefix + "\\" << std::endl;
+	}
+	else
+	{
+		myMerkle.ops++;
+		displayLeft(outfile, subtree->left, prefix + "|    ");
+		outfile << prefix + "\\---" << subtree->word << "|" << subtree->timeStamp << std::endl;
+		displayRight(outfile, subtree->right, prefix + "     ");
+	}
+}
+
+void pMT::displayLeft(std::ostream & outfile, treeNode* subtree, std::string prefix)
+{
+	myMerkle.ops++;
+	if (subtree == NULL)
+	{
+		myMerkle.ops++;
+		outfile << prefix + "/" << std::endl;
+	}
+	else
+	{
+		myMerkle.ops++;
+		displayLeft(outfile, subtree->left, prefix + "     ");
+		outfile << prefix + "/---" << subtree->word << "|" << subtree->timeStamp << std::endl;
+		displayRight(outfile, subtree->right, prefix + "|    ");
+	}
+}
+
+void pMT::display(std::ostream& outfile)
+{
+	myMerkle.ops++;
+	std::string prefix;
+	if (myMerkle.root == NULL)
+	{
+		myMerkle.ops++;
+		outfile << "-" << std::endl;
+	}
+	else
+	{
+		myMerkle.ops++;
+		displayLeft(outfile, myMerkle.root->left, "    ");
+		outfile << "---" << myMerkle.root->word << "|" << myMerkle.root->timeStamp << std::endl;
+		displayRight(outfile, myMerkle.root->right, "    ");
+	}
+}
